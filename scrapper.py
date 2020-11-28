@@ -1,12 +1,20 @@
-import requests
-from bs4 import BeautifulSoup
-import lxml
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver import Chrome
+import time
 
-walmart_electronics_source = requests.get('https://www.walmart.com/search/?query=&cat_id=3944')
-walmart_electronic_department_base = 'https://www.walmart.com/search/?cat_id=3944_'
+path = '/Users/nirmalya/Downloads/chromedriver'
+chrome_options = Options()
+chrome_options.headless = True
+chrome_options.add_argument("--window-size=1920,1200")
+chrome_options.add_argument(' -- incognito')
+browser = webdriver.Chrome(path, options=chrome_options)
+browser.get('https://walmart.com')
+down_arrow = browser.find_element_by_xpath('//*[@id="global-search-dropdown-toggle"]/span/img')
+search_button = browser.find_element_by_xpath('//*[@id="global-search-submit"]/span/img')
 
-walmart_electronics = BeautifulSoup(walmart_electronics_source, 'lxml')
 
-department_labels = walmart_electronics.find_all('li', class_="department-single-level")
+print(browser.page_source)
+browser.quit()
 
-print(department_labels)
